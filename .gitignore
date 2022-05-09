@@ -7,7 +7,7 @@ DICOM_List.csv
 results.csv
 # C extensions
 *.so
-rsp*.xml
+*.xml
 
 # Distribution / packaging
 .Python
