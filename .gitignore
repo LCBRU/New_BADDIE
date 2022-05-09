@@ -2,6 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
+dicoms
 DICOM_List.csv
 results.csv
 # C extensions
