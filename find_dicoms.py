@@ -13,6 +13,10 @@ import psutil
 from itertools import islice
 from pathlib import Path
 import timeit
+import os
+import time as mytime
+from datetime import datetime, time
+from dicomanonymizer import *
 
 warnings.filterwarnings('ignore')
 warnings.warn('DelftStack')
@@ -46,7 +50,7 @@ def extract_find_results(filename):
         #print(p)
         p.unlink(missing_ok=True) # remove if an XML is alreday there
         cmd_build =f'findscu -P -k 0008,0052=STUDY -aec UHLPACSWFM01 -aet XNAT01 10.194.105.10 104 -k 0010,0020={Snumber} -k 0020,000d -k "0008,1030={Desc}" -k "0008,0020={period_start}-{period_end}" -k 0008,0050 -Xx'
-        #print(cmd_build)
+        print(cmd_build)
 
         subprocess.run(cmd_build,shell=True ,text=True ,capture_output=True).stderr
         #subprocess.run('cat rsp0001.xml',shell=True)
@@ -91,6 +95,34 @@ def enoughDiskSpace(path):
         print('Remaining disk space = {} GB'.format(freeSpace))
         return 0
 
+def execute_anonymisation(folder):
+    tic = timeit.default_timer()
+    to_process = len([name for name in os.listdir(f'dicoms/{folder}/') if os.path.isfile(os.path.join(f'dicoms/{folder}/', name))])
+    filenames = []
+    f = 0
+   
+    #Create Psudonimised File and open for writing
+    log_file = open(f'dicoms/Batch_log.csv', 'w')
+    mkcmd = f'mkdir ./dicoms/{folder}/de'
+    subprocess.run(mkcmd,shell=True ,text=True ,capture_output=True).stderr
+    filenames = []
+
+    for entry in os.listdir(f'dicoms/{folder}'):
+        filenames.append(entry)
+        #print(entry)
+    for filename in filenames:
+        #print(filename)
+        in_file = f'dicoms/{folder}/{filename}'
+        file_out = f'dicoms/{folder}/de/{filename}'
+        di_cmd = f"dicom-anonymizer {in_file} {file_out} --dictionary dictionary.json" #--extra-rules extra_rules.json
+        #print(di_cmd)      
+        ExecuteAnonymisation = subprocess.run([di_cmd],shell=True ,text=True ,capture_output=True).stdout
+    processed = len([name for name in os.listdir(f'dicoms/{folder}/de/') if os.path.isfile(os.path.join(f'dicoms/{folder}/de/', name))])
+    toc = timeit.default_timer()
+    log = f'{folder} had {to_process} to Anonymise, {processed} Anonymised in {round((toc-tic)/60,1)} Minutes.'
+    print(log)
+    log_file.write(f'{log} \n')
+
 def download_dicoms(filename):
     print(filename)
     df = pd.read_csv(filename)
@@ -115,6 +147,7 @@ def download_dicoms(filename):
         #print(cmd_build)        
         tic = timeit.default_timer()
         subprocess.run(cmd_build,shell=True ,text=True ,capture_output=True).stderr
+        execute_anonymisation(folder)
         toc = timeit.default_timer()
         log = f'{i+1} {StudyInstanceUID} time taken: {toc-tic}'# {subprocess.run(du ./dicoms/Folder -h,shell=True).stdout}' #want to add os. equivilent of subprocess.run(du ./dicoms/Folder -h,shell=True.stdout
         print(log)
@@ -122,5 +155,10 @@ def download_dicoms(filename):
 
 #extract_find_results('DICOM_List.csv') # to results.csv
 
-download_dicoms('results.csv') # using results.csv to output folder
+#download_dicoms('results.csv') # using results.csv to output folder
+
+
+singlefolder = '3DS000735'
+folder = f'{singlefolder}'
+execute_anonymisation(folder)
 
