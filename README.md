@@ -1,5 +1,9 @@
 # New_BADDIE
 New version of Baddie search, download and anonomise
+
+Many thanks to Laurenn Lam, Heath Hopewell and Richard Bramley.
+This program uses dicom-anonymizer as it's anonymizer (Laurenn Lam) https://pypi.org/project/dicom-anonymizer/ 
+
 How to use:
 Create a file named ‘DICOM_List.csv’ for the program to use as it’s search criteria, formatted as below with two example rows:
 
