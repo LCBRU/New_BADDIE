@@ -1,6 +1,0 @@
-ModuleNotFoundError: No module named 'bs4'
-Traceback (most recent call last):
-  File "find_dicoms.py", line 3, in <module>
-    import bs4
-ModuleNotFoundError: No module named 'bs4'
-2022-05-20 15:48:26,958 [INFO] start time
