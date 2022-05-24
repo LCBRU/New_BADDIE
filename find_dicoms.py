@@ -10,6 +10,7 @@ import xml.etree.ElementTree as ET
 from xml.etree.ElementTree import tostring
 import warnings
 import psutil
+import shutil
 from itertools import islice
 from pathlib import Path
 import timeit
@@ -17,6 +18,19 @@ import os
 import time as mytime
 from datetime import datetime, time
 from dicomanonymizer import *
+import logging
+import sys
+
+logging.basicConfig(
+    level=logging.INFO,
+    format = '%(asctime)s [%(levelname)s] %(message)s',
+    handlers=[
+        logging.FileHandler("progress.log"),
+        logging.StreamHandler(sys.stdout)
+    ]
+)
+
+logging.info(f'start time')
 
 warnings.filterwarnings('ignore')
 warnings.warn('DelftStack')
@@ -31,7 +45,7 @@ def extract_find_results(filename):
     df = df.reset_index()  # make sure indexes pair with number of rows
     finish = len(df)
     #testing
-    print("number of participants to process: ", finish)
+    logging.info("number of participants to process: ", finish)
     now = datetime.now()
     dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
     print(f'sudo password will be requested in a few minutes after the list to download is built')
@@ -97,8 +111,9 @@ def extract_find_results(filename):
     now = datetime.now()
     dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
     toc_f = timeit.default_timer()
-    print(f'Finished, time now is {dt_string}. Time taken: {round((toc_f-tic_f)/60,1)} Minutes')
-       
+    log = f'Finished extract_find_results, time now is {dt_string}. Time taken: {round((toc_f-tic_f)/60,1)} Minutes'
+    logging.info(log)
+
 def du(path):
     """disk usage in human readable format (e.g. '2,1GB')"""
     return subprocess.check_output(['du','-sh', path]).split()[0].decode('utf-8')
@@ -120,8 +135,7 @@ def execute_anonymisation(folder):
     filenames = []
     f = 0
    
-    #Create Psudonimised File and open for writing
-    log_file = open(f'dicoms/Batch_log.csv', 'w')
+    #Create Psudonimised File and open for writing    
     mkcmd = f'mkdir ./dicoms/{folder}/de'
     subprocess.run(mkcmd,shell=True ,text=True ,capture_output=True).stderr
     filenames = []
@@ -139,8 +153,37 @@ def execute_anonymisation(folder):
     processed = len([name for name in os.listdir(f'dicoms/{folder}/de/') if os.path.isfile(os.path.join(f'dicoms/{folder}/de/', name))])
     toc_a = timeit.default_timer()
     log = f'{folder} had {to_process} to Anonymise, {processed} Anonymised in {round((toc_a-tic_a)/60,1)} Minutes.'
-    #print(log)
-    log_file.write(f'{log} \n')
+    logging.info(log)
+    
+
+def execute_re_anonymisation_acc_num(folder):
+    tic_a = timeit.default_timer()
+    
+    to_process = len([name for name in os.listdir(f'dicoms/{folder}/de') if os.path.isfile(os.path.join(f'dicoms/{folder}/de', name))])
+    filenames = []
+    f = 0
+   
+    #Create Psudonimised File and open for writing    
+    #mkcmd = f'mkdir ./dicoms/{folder}/de'
+    #subprocess.run(mkcmd,shell=True ,text=True ,capture_output=True).stderr
+    filenames = []
+
+    for entry in os.listdir(f'dicoms/{folder}/de'):
+        filenames.append(entry)
+        shutil.move(os.path.join(f'dicoms/{folder}/de', entry), f'dicoms/{folder}')
+        #print(entry)
+    for filename in filenames:
+        #print(filename)
+        in_file = f'dicoms/{folder}/{filename}'
+        file_out = f'dicoms/{folder}/de/{filename}'
+        di_cmd = f"dicom-anonymizer -t '(0x0010, 0x0020)' 'regexp' 'R.+' '{folder}' --dictionary dictionary.json {in_file} {file_out}" #--extra-rules extra_rules.json
+        print(f'{filename}')      
+        ExecuteAnonymisation = subprocess.run([di_cmd],shell=True ,text=True ,capture_output=True).stdout
+    processed = len([name for name in os.listdir(f'dicoms/{folder}/de/') if os.path.isfile(os.path.join(f'dicoms/{folder}/de/', name))])
+    toc_a = timeit.default_timer()
+    log = f'{folder} had {to_process} to Anonymise, {processed} Anonymised in {round((toc_a-tic_a)/60,1)} Minutes.'
+    logging.info(log)
+  
 
 def clear_pid_version(folder):
     for original_file in os.listdir(f'dicoms/{folder}/'):
@@ -150,8 +193,19 @@ def clear_pid_version(folder):
 def download_dicoms(filename):
     print(filename)
     df = pd.read_csv(filename)
+    print(f'Found in input file: {len(df)}')
+    df_complete = pd.read_csv('completed_list.csv')
+    print(f'Aready completed so need to remove: {len(df_complete)}')
+    #now remove the already completed from the list...
+    print(df)
+    df = pd.merge(df_complete,df,left_on='StudyNumber_complete',right_on='StudyNumber',how='right', indicator=True).query('_merge == "right_only"').drop('_merge', 1)
+    df.drop('StudyNumber_complete', axis=1, inplace=True)
+    df.reset_index(inplace = True, drop = True)
+    print(df)
+    print(f'...removed, leaving the remaining: {len(df)}')
     finish = len(df)
-    print("number of participants to process: ", finish)    
+    #finish = 10
+    logging.info(f'number of participants to process:{finish}')    
     i=0
     while i < finish and enoughDiskSpace("/home/danlawday/") == 1:
         LastSnumber=''
@@ -166,7 +220,7 @@ def download_dicoms(filename):
         b2 = '  -od /home/danlawday/New_BADDIE/dicoms/'
         #Folder
         b3 = '/'
-        cmd_build = b1 + StudyInstanceUID + b2 + folder +b3
+        cmd_build = f'{b1}{StudyInstanceUID}{b2}{folder}{b3}'
         #print()
         #print(cmd_build)        
         tic = timeit.default_timer()
@@ -174,16 +228,46 @@ def download_dicoms(filename):
         execute_anonymisation(folder)
         clear_pid_version(folder)
         toc = timeit.default_timer()
+        with open("completed_list.csv","a+") as f:
+            f.write(f'{folder}\n')
+        log = f'Participant {i+1}: Download and anonymisation time taken: {round((toc-tic)/60,1)} Minutes'# {subprocess.run(du ./dicoms/Folder -h,shell=True).stdout}' #want to add os. equivilent of subprocess.run(du ./dicoms/Folder -h,shell=True.stdout
+        logging.info(log)
         
-        now = datetime.now()
-        dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
-
-        log = f'Participant {i+1}:{dt_string}: Download and anonymisation time taken: {round((toc-tic)/60,1)} Minutes'# {subprocess.run(du ./dicoms/Folder -h,shell=True).stdout}' #want to add os. equivilent of subprocess.run(du ./dicoms/Folder -h,shell=True.stdout
-        print(log)
         i = i+1
 
-extract_find_results('DICOM_List.csv') # to results.csv
+def anonymisation_only(filename):
+    #print(filename)
+    df = pd.read_csv(filename)
+    df_complete = pd.read_csv('completed_list.csv')
+    #now remove the already completed from the list...
+    df = (pd.merge(df_complete,df,on='StudyNumber',how='right', indicator=True).query('_merge == "right_only"').drop('_merge', 1))
+    finish = len(df)
+    #finish = 3
+    logging.info(f'number of participants to process: {finish}')    
+    i=0
+    while i < finish and enoughDiskSpace("/home/danlawday/") == 1:
+        LastSnumber=''
+        folder = df.StudyNumber[i]
+        #StudyInstanceUID = df.StudyInstanceUID[i]
+        #print(folder)
+        #print(StudyInstanceUID)
+        tic = timeit.default_timer()       
+        execute_re_anonymisation_acc_num(folder)
+        clear_pid_version(folder)
+        toc = timeit.default_timer()
+
+        log = f'Participant {i+1}: Download and anonymisation time taken: {round((toc-tic)/60,1)} Minutes'# {subprocess.run(du ./dicoms/Folder -h,shell=True).stdout}' #want to add os. equivilent of subprocess.run(du ./dicoms/Folder -h,shell=True.stdout
+        logging.info(log)
+        with open("completed_list.csv","a+") as f:
+            f.write(f'{folder}\n')
+        #print(f'folder:{i+1} folder name:{folder}')
+        i = i+1
+
+
+#extract_find_results('DICOM_List.csv') # to results.csv
 download_dicoms('results.csv') # using results.csv to output folder
+
+#anonymisation_only('rerun.csv')
 
 #singlefolder = '3DS000734'
 #folder = f'{singlefolder}'
