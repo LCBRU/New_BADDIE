@@ -21,7 +21,7 @@ The next of the program is to iterate though the results.csv file and perform th
 6.	Track the completion and log progress.
 If the program finishes prior to end of results list the program can be restarted and continue where it left off, reprocessing the dicom it was part way though.
 
-| List of files and what they do |
+| List of files and what they do | |
 | --- | --- |
 | find_dicoms.py | The program |
 | DICOM_List.csv | The input file |
