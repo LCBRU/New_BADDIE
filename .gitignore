@@ -5,10 +5,12 @@ __pycache__/
 dicoms
 DICOM_List.csv
 results.csv
+completed_list.csv
 *.csv
 cycle2bunch.txt
 nohup.out
 rerun.csv
+
 # C extensions
 *.so
 *.xml
