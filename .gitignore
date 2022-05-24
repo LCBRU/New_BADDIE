@@ -1,7 +1,4 @@
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
+#main program file to ignore
 dicoms
 DICOM_List.csv
 results.csv
@@ -11,6 +8,10 @@ cycle2bunch.txt
 nohup.out
 rerun.csv
 
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
 
 # C extensions
 *.so
