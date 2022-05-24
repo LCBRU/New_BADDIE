@@ -3,9 +3,10 @@ New version of Baddie search, download and anonomise
 How to use:
 Create a file named ‘DICOM_List.csv’ for the program to use as it’s search criteria, formatted as below with two example rows:
 
-UhlSystemNumber,MRN,StudyNumber,DateOfSymptoms,ct_date_time_start,DateOfWindowStart,DateOfWindowEND,StudyDescriptionWanted
-S12345678,RWES12345678,3DS000001,2019-07-21 00:00:00.000,2019-07-21 00:00:00.000,2019-07-21 00:00:00.000,2019-07-28 00:00:00.000,MRI Head
-S12345679,RWES12345679,3DS000002,2015-07-06 00:00:00.000,2015-07-06 00:00:00.000,2015-07-06 00:00:00.000,2015-07-13 00:00:00.000,MRI Head
+| UhlSystemNumber | MRN | StudyNumber | DateOfSymptoms | ct_date_time_start | DateOfWindowStart | DateOfWindowEND | StudyDescriptionWanted |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| S12345678 | RWES12345678 | 3DS000001 | 2019-07-21 00:00:00.000 | 2019-07-21 00:00:00.000 | 2019-07-21 00:00:00.000 | 2019-07-28 00:00:00.000 | MRI Head |
+| S12345679 | RWES12345679 | 3DS000002 | 2015-07-06 00:00:00.000 | 2015-07-06 00:00:00.000 | 2015-07-06 00:00:00.000 | 2015-07-13 00:00:00.000 | MRI Head |
 
 Notes: the date fields are formatted as datetime, these will be read in and reformatted as needed.
 The StudyDescriptionWanted will be used to filter to only the type of scan you are searching for.
@@ -31,4 +32,3 @@ dictionary.json             : List all the dicom tags which you want to keep.
 Examle_xml.txt              : An anonymised version of the a rsp0001.xml for reference (not use by the program).
 progress.log                : A progress log, shows timing which can be helpful for predicting how long the request will take.
 progress_re.log             : Log for anonymization of already downloaded files, which is work in progress.
-
