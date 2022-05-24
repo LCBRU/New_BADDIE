@@ -21,14 +21,14 @@ The next of the program is to iterate though the results.csv file and perform th
 6.	Track the completion and log progress.
 If the program finishes prior to end of results list the program can be restarted and continue where it left off, reprocessing the dicom it was part way though.
 
-List of files and what they do: 
-find_dicoms.py              : The program
-DICOM_List.csv              : The input file.
-results.csv                 : As discussed above
-not_found_results.csv       : As discussed above
-rsp0001.xml / rsp0002.xml   : This is the response from the find command, it’s processed and data extracted into the results.csv
-completed_list.csv          : Used to track what’s been completed and remove from the list of dicoms to download, enables picking up from where it stopped on large requests.
-dictionary.json             : List all the dicom tags which you want to keep.
-Examle_xml.txt              : An anonymised version of the a rsp0001.xml for reference (not use by the program).
-progress.log                : A progress log, shows timing which can be helpful for predicting how long the request will take.
-progress_re.log             : Log for anonymization of already downloaded files, which is work in progress.
+List of files and what they do
+| find_dicoms.py | The program |
+| DICOM_List.csv | The input file |
+| results.csv | As discussed above |
+not_found_results.csv | As discussed above |
+rsp0001.xml / rsp0002.xml | This is the response from the find command, it’s processed and data extracted into the results.csv |
+completed_list.csv | Used to track what’s been completed and remove from the list of dicoms to download, enables picking up from where it stopped on large requests |
+dictionary.json  | List all the dicom tags which you want to keep |
+Examle_xml.txt | An anonymised version of the a rsp0001.xml for reference (not use by the program) |
+progress.log | A progress log, shows timing which can be helpful for predicting how long the request will take |
+progress_re.log | Log for anonymization of already downloaded files, which is work in progress |
