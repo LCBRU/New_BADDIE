@@ -1,0 +1,343 @@
+StudyDescription,wanted_or_not,group_name
+Angio carotid Both,wanted,brain-to-pelvis
+Angio cerebral,wanted,brain-to-pelvis
+CT Abdomen,wanted,brain-to-pelvis
+CT Abdomen and pelvis,wanted,brain-to-pelvis
+CT Abdomen and pelvis with contrast,wanted,brain-to-pelvis
+CT Abdomen with contrast,wanted,brain-to-pelvis
+CT Adrenal Both,wanted,brain-to-pelvis
+CT Adrenal with contrast Both,wanted,brain-to-pelvis
+CT Angio aortic arch and carotid Both,wanted,brain-to-pelvis
+CT Angiogram,wanted,brain-to-pelvis
+CT Angiogram abdomen,wanted,brain-to-pelvis
+CT Angiogram aorta,wanted,brain-to-pelvis
+CT Angiogram intracranial,wanted,brain-to-pelvis
+CT Angiogram lower limb Both,wanted,brain-to-pelvis
+CT Angiogram mesenteric artery,wanted,brain-to-pelvis
+CT Angiogram pulmonary,wanted,brain-to-pelvis
+CT Angiogram renal,wanted,brain-to-pelvis
+CT Angiogram renal and abdominal,wanted,brain-to-pelvis
+CT Angiogram upper limb Both,wanted,brain-to-pelvis
+CT Angiography for TAVI,wanted,brain-to-pelvis
+CT Aorta abdominal,wanted,brain-to-pelvis
+CT Aorta abdominal with contrast,wanted,brain-to-pelvis
+CT Aorta thoracic,wanted,brain-to-pelvis
+CT Aorta thoracic with contrast,wanted,brain-to-pelvis
+CT Aorta whole,wanted,brain-to-pelvis
+CT Aorta whole with contrast,wanted,brain-to-pelvis
+CT Brain neck thorax Abdo and pelvis,wanted,brain-to-pelvis
+CT Head,wanted,brain-to-pelvis
+CT Head neck thorax abdomen and pelvis,wanted,brain-to-pelvis
+CT Head thorax Abdo pelvis with contrast,wanted,brain-to-pelvis
+CT Head with contrast,wanted,brain-to-pelvis
+CT Heart with contrast,wanted,brain-to-pelvis
+CT IAM with contrast,wanted,brain-to-pelvis
+CT Kidney triple phase Both,wanted,brain-to-pelvis
+CT Low dose thorax,wanted,brain-to-pelvis
+CT Neck,wanted,brain-to-pelvis
+CT Neck and thorax,wanted,brain-to-pelvis
+CT Neck and thorax with contrast,wanted,brain-to-pelvis
+CT Neck thorax abdomen pelvis with Cont,wanted,brain-to-pelvis
+CT Neck thorax and abdomen with contrast,wanted,brain-to-pelvis
+CT Neck with contrast,wanted,brain-to-pelvis
+CT Orbit with contrast Both,wanted,brain-to-pelvis
+CT Posterior Fossa,wanted,brain-to-pelvis
+CT Radiotherapy planning scan head,wanted,brain-to-pelvis
+CT Renal Both,wanted,brain-to-pelvis
+CT Renal with contrast Both,wanted,brain-to-pelvis
+CT Sinuses,wanted,brain-to-pelvis
+CT Spine cervical,wanted,brain-to-pelvis
+CT Spine lumbar,wanted,brain-to-pelvis
+CT Spine thoracic,wanted,brain-to-pelvis
+CT Thorax,wanted,CTCA
+CT Thorax abdomen and pelvis,wanted,brain-to-pelvis
+CT Thorax abdomen pelvis with contrast,wanted,brain-to-pelvis
+CT Thorax and abdomen with contrast,wanted,brain-to-pelvis
+CT Thorax with contrast,wanted,CTCA
+CT Urinary tract,wanted,brain-to-pelvis
+CT Urinary tract with contrast,wanted,brain-to-pelvis
+CT Venogram,wanted,brain-to-pelvis
+CT Venogram cerebral,wanted,brain-to-pelvis
+Fluoroscopy lower limb Rt,wanted,brain-to-pelvis
+Intracoronary Doppler,wanted,brain-to-pelvis
+Magnetic resonance angiography,wanted,brain-to-pelvis
+Mobile image intensifier lower limb Lt,wanted,brain-to-pelvis
+Mobile image intensifier upper limb Lt,wanted,brain-to-pelvis
+MRA angiogram renal arteries,wanted,brain-to-pelvis
+MRA Aorta abdominal,wanted,brain-to-pelvis
+MRA Aorta thoracic,wanted,brain-to-pelvis
+MRA Aorta whole,wanted,brain-to-pelvis
+MRA Cardiac coronary arteries,wanted,brain-to-pelvis
+MRA Carotid Both,wanted,brain-to-pelvis
+MRA Head,wanted,brain-to-pelvis
+MRA Head with contrast,wanted,brain-to-pelvis
+MRA Iliac artery,wanted,brain-to-pelvis
+MRA Lower limb Both,wanted,brain-to-pelvis
+MRA Neck,wanted,brain-to-pelvis
+MRA Neck with contrast,wanted,brain-to-pelvis
+MRA Pulmonary arteries,wanted,brain-to-pelvis
+MRA Renal and visceral,wanted,brain-to-pelvis
+MRA Renal Both,wanted,brain-to-pelvis
+MRA Upper limb Both,wanted,brain-to-pelvis
+MRA Visceral,wanted,brain-to-pelvis
+MRA Whole body,wanted,brain-to-pelvis
+MRI Abdomen,wanted,brain-to-pelvis
+MRI Abdomen with contrast,wanted,brain-to-pelvis
+MRI Adrenal Both,wanted,brain-to-pelvis
+MRI Aorta,wanted,brain-to-pelvis
+MRI Aorta thoracic with contrast,wanted,brain-to-pelvis
+MRI Aorta with contrast,wanted,brain-to-pelvis
+MRI Brachial plexus,wanted,brain-to-pelvis
+MRI Brain volume with contrast,wanted,brain-to-pelvis
+MRI Breast with contrast Both,wanted,brain-to-pelvis
+MRI Head,wanted,brain-to-pelvis
+MRI Head with contrast,wanted,brain-to-pelvis
+MRI Liver,wanted,brain-to-pelvis
+MRI Liver and spleen,wanted,brain-to-pelvis
+MRI Liver and spleen with contrast,wanted,brain-to-pelvis
+MRI Liver with contrast,wanted,brain-to-pelvis
+MRI Liver with hepatobiliary contrast,wanted,brain-to-pelvis
+MRI Neck,wanted,brain-to-pelvis
+MRI Neck with contrast,wanted,brain-to-pelvis
+MRI Orbit Both,wanted,brain-to-pelvis
+MRI Orbit with contrast Both,wanted,brain-to-pelvis
+MRI Pancreas,wanted,brain-to-pelvis
+MRI Pelvis,wanted,brain-to-pelvis
+MRI Pelvis gynaecological,wanted,brain-to-pelvis
+MRI Pelvis prostate,wanted,brain-to-pelvis
+MRI Pelvis SIJ Both,wanted,brain-to-pelvis
+MRI Pelvis with contrast,wanted,brain-to-pelvis
+MRI Pituitary,wanted,brain-to-pelvis
+MRI Pituitary with contrast,wanted,brain-to-pelvis
+MRI Renal Both,wanted,brain-to-pelvis
+MRI Spectroscopy,wanted,brain-to-pelvis
+MRI Spine cervical,wanted,brain-to-pelvis
+MRI Spine lumbar and sacral,wanted,brain-to-pelvis
+MRI Spine whole,wanted,brain-to-pelvis
+MRI Temporal lobe,wanted,brain-to-pelvis
+MRI Thoracic inlet and outlet,wanted,brain-to-pelvis
+MRI Thorax with contrast,wanted,brain-to-pelvis
+MRI Whole body,wanted,brain-to-pelvis
+MRV Venogram,wanted,brain-to-pelvis
+NM Renogram,wanted,brain-to-pelvis
+NM Renogram with diuretic,wanted,brain-to-pelvis
+Unspecified CT ABDOMEN,wanted,brain-to-pelvis
+Unspecified CT ABDOMENPELVIS,wanted,brain-to-pelvis
+Unspecified CT AORTA,wanted,brain-to-pelvis
+Unspecified CT AORTA3,wanted,brain-to-pelvis
+Unspecified CT CHEST_TO_PELVIS,wanted,brain-to-pelvis
+Unspecified CT COW3,wanted,brain-to-pelvis
+Unspecified CT CTPA,wanted,brain-to-pelvis
+Unspecified CT HEAD,wanted,brain-to-pelvis
+Unspecified CT NECK,wanted,brain-to-pelvis
+Unspecified CT NECK3,wanted,brain-to-pelvis
+Unspecified CT SPINE,wanted,brain-to-pelvis
+Unspecified MR ABDOMEN,wanted,brain-to-pelvis
+Unspecified MR ANGIO,wanted,brain-to-pelvis
+Unspecified MR AORTA,wanted,brain-to-pelvis
+Unspecified MR BRAIN,wanted,brain-to-pelvis
+Unspecified MR CAROTID,wanted,brain-to-pelvis
+Unspecified MR CHEST,wanted,brain-to-pelvis
+Unspecified MR CSPINE,wanted,brain-to-pelvis
+Unspecified MR HEAD,wanted,brain-to-pelvis
+Unspecified MR KIDNEY,wanted,brain-to-pelvis
+Unspecified MR NECK,wanted,brain-to-pelvis
+Unspecified MR RENALA,wanted,brain-to-pelvis
+Unspecified MR VASCRENAL,wanted,brain-to-pelvis
+Unspecified PT ABDOMEN,wanted,brain-to-pelvis
+US Abdomen and pelvis,wanted,brain-to-pelvis
+US Abdomen and renal tract,wanted,brain-to-pelvis
+US Abdominal aorta,wanted,brain-to-pelvis
+US Doppler aortoiliac,wanted,brain-to-pelvis
+US Doppler carotid artery Both,wanted,brain-to-pelvis
+US Doppler for central venous access,wanted,brain-to-pelvis
+US Doppler lower limb veins Both,wanted,brain-to-pelvis
+US Doppler lower limb veins Lt,wanted,brain-to-pelvis
+US Doppler lower limb veins Rt,wanted,brain-to-pelvis
+US Doppler renal Both,wanted,brain-to-pelvis
+US Doppler upper limb arteries Both,wanted,brain-to-pelvis
+US Doppler upper limb arteries Lt,wanted,brain-to-pelvis
+US Doppler upper limb arteries Rt,wanted,brain-to-pelvis
+US Doppler upper limb veins Rt,wanted,brain-to-pelvis
+US Neck,wanted,brain-to-pelvis
+US Pelvis,wanted,brain-to-pelvis
+US Soft tissue,wanted,brain-to-pelvis
+Migrated MR Study,wanted,CMR
+MRI Card morphology Func with contrast,wanted,CMR
+MRI Card ventric volume study,wanted,CMR
+MRI CARDIAC,wanted,CMR
+MRI Cardiac complex congenital,wanted,CMR
+MRI Cardiac morphology function,wanted,CMR
+MRI Cardiac myocardial viability,wanted,CMR
+MRI Cardiac valvular function study,wanted,CMR
+MRI Cardiac ventricular volume study,wanted,CMR
+MRI CARDIAC WITH CONTRAST,wanted,CMR
+MRI Cardiac/Ferriscan,wanted,CMR
+MRI Heart,wanted,CMR
+MRI Heart with contrast,wanted,CMR
+Unspecified Merge Only MR,wanted,CMR
+Unspecified MR,wanted,CMR
+Unspecified MR HEART,wanted,CMR
+Unspecified NM,wanted,CMR
+MRI Card Morph Func stress with contrast,wanted,CMR-stress
+MRI Card Morph Func velocity with Cont,wanted,CMR-stress
+MRI Card morphology function stress,wanted,CMR-stress
+MRI Card morphology function velocity,wanted,CMR-stress
+MRI Cardiac perfusion,wanted,CMR-stress
+MRI Cardiac rest perfusion,wanted,CMR-stress
+MRI Cardiac stress function study,wanted,CMR-stress
+MRI Cardiac stress perfusion,wanted,CMR-stress
+MRI Diffusion weighted,wanted,CMR-stress
+CT Angio coronary artery graft,wanted,CTCA
+CT Card Cor Art Cal Scor NCASC,wanted,CTCA
+CT Cardiac angiogram coronary,wanted,CTCA
+CT Cardiac Cor artery calcium scoring,wanted,CTCA
+CT Cardiac gated,wanted,CTCA
+CT Cardiac gated function with contrast,wanted,CTCA
+CT Cardiac gated with contrast,wanted,CTCA
+CT Cardiac multiple gated acquisition,wanted,CTCA
+CT Chest high resolution,wanted,CTCA
+Gated CT thorax,wanted,CTCA
+Migrated CRStudy,wanted,CTCA
+Migrated CTStudy,wanted,CTCA
+Review of external CT images,wanted,CTCA
+Unspecified CT,wanted,CTCA
+Unspecified CT CARDIAC,wanted,CTCA
+Unspecified CT CARDIAC1,wanted,CTCA
+Unspecified CT CARDIAC3,wanted,CTCA
+Unspecified CT CHABPEL3,wanted,CTCA
+Unspecified CT CHEST,wanted,CTCA
+Unspecified CT HEART,wanted,CTCA
+Unspecified Merge Only CT,wanted,CTCA
+Cardiac biventricular ICD insertion,wanted,device
+Cardiac defibrillator implant,wanted,device
+Cardiac permanent pacemaker insertion,wanted,device
+BRU US Cardiac TTE Optimise,wanted,ECHO
+Migrated US Study,wanted,ECHO
+Unspecified Merge Only US,wanted,ECHO
+Unspecified US,wanted,ECHO
+Unspecified US HEART,wanted,ECHO
+US Abdomen,wanted,ECHO
+US Cardiac TTE Optimisation,wanted,ECHO
+US Intracardiac,wanted,ECHO
+US Stress echocardiogram,wanted,ECHO
+US Stress echocardiogram with contrast,wanted,ECHO
+US Transoesophageal echocardiogram,wanted,ECHO
+US Transoesophageal echocardiogram 3D,wanted,ECHO
+US Transthoracic echocardiogram,wanted,ECHO
+US TTE with Contrast,wanted,ECHO
+C/L PTCA - RCA,wanted,invasive angiogram
+Cardiac ablation,wanted,invasive angiogram
+Cardiac Angio congenital anomaly study,wanted,invasive angiogram
+Cardiac Angio coronaries,wanted,invasive angiogram
+Cardiac Angio coronary stent,wanted,invasive angiogram
+Cardiac Angio grafts,wanted,invasive angiogram
+Cardiac Angio Lt heart study,wanted,invasive angiogram
+Cardiac Angio Lt ventricle and Cor A,wanted,invasive angiogram
+Cardiac Angio LV and Coronary Graft,wanted,invasive angiogram
+Cardiac Angio PTCA,wanted,invasive angiogram
+Cardiac Angio Rt heart study,wanted,invasive angiogram
+Cardiac atrial septal closure,wanted,invasive angiogram
+Cardiac electrophysiology study,wanted,invasive angiogram
+Cardiac pressure wire and Cath insertion,wanted,invasive angiogram
+Cardiac pressure wire and PCI,wanted,invasive angiogram
+Cardiac valvuloplasty,wanted,invasive angiogram
+Fluoro guided drain Insert pericardium,wanted,invasive angiogram
+Fluoroscopy heart,wanted,invasive angiogram
+Intravascular ultrasound,wanted,invasive angiogram
+Migrated DX Study,wanted,invasive angiogram
+Migrated OC Study,wanted,invasive angiogram
+Migrated OT Study,wanted,invasive angiogram
+Migrated XA Study,wanted,invasive angiogram
+OCT Coronary artery Fluoro guided Both,wanted,invasive angiogram
+OCT Thickness arterial wall Fluoro Guid,wanted,invasive angiogram
+Pc diagnostic angiography,wanted,invasive angiogram
+Percutaneous coronary intervention,wanted,invasive angiogram
+Primary Pc coronary intervention,wanted,invasive angiogram
+Pulmonary artery catheter exchange,wanted,invasive angiogram
+Pulmonary artery catheter insertion,wanted,invasive angiogram
+Unspecified IV,wanted,invasive angiogram
+Unspecified IV INTRAVASCULAR U,wanted,invasive angiogram
+Unspecified Merge Only DX,wanted,invasive angiogram
+Unspecified Merge Only IV,wanted,invasive angiogram
+Unspecified Merge Only OC,wanted,invasive angiogram
+Unspecified Merge Only OT,wanted,invasive angiogram
+Unspecified Merge Only PT,wanted,invasive angiogram
+Unspecified Merge Only XA,wanted,invasive angiogram
+Unspecified OC HEART,wanted,invasive angiogram
+Unspecified OT,wanted,invasive angiogram
+Unspecified OT HEART,wanted,invasive angiogram
+Unspecified SR,wanted,invasive angiogram
+Unspecified XA,wanted,invasive angiogram
+Unspecified XA CORONARYARTERY,wanted,invasive angiogram
+Unspecified XA HEART,wanted,invasive angiogram
+Unspecified XA PRIMARY PC CORO,wanted,invasive angiogram
+US Intracardiac echocardiography,wanted,invasive angiogram
+US Intracoronary,wanted,invasive angiogram
+Angio arch aortogram,wanted,needs checking
+CT - Request Not Yet Coded,wanted,needs checking
+CT Chest and Drainage,wanted,needs checking
+CT Clavicle Rt,wanted,needs checking
+Fluoroscopic guided injection,wanted,needs checking
+Import CD (ZIMCD),wanted,needs checking
+Migrated NBSS Study,wanted,mamographic
+Unspecified DO,wanted,needs checking
+Unspecified EC,wanted,ECG
+Unspecified Merge Only CR,wanted,needs checking
+WHOLE CASE REVIEW,wanted,needs checking
+NM card gated rest MIBI/TF,wanted,nuclear
+NM Cardiac myocardial perfusion scan,wanted,nuclear
+NM Cardiac rest gated PET FDG,wanted,nuclear
+NM Cardiac rest PET FDG,wanted,nuclear
+NM Cardiac stress PET Rb81,wanted,nuclear
+NM CT attenuation correction,wanted,nuclear
+NM MPS MIBI rest,wanted,nuclear
+NM MPS MIBI rest gated,wanted,nuclear
+NM MPS MIBI stress,wanted,nuclear
+NM MPS MIBI stress gated,wanted,nuclear
+NM MPS Tf rest gated,wanted,nuclear
+NM MPS Tf stress gated,wanted,nuclear
+NM MPS Thallium stress  reinj,wanted,nuclear
+NM MPS Tl stress Redis reinj,wanted,nuclear
+NM Whole body FDG PET CT,wanted,nuclear
+NM Whole body PET FDG,wanted,nuclear
+Positron emission tomograp  CT,wanted,nuclear
+Unspecified Merge Only NM,wanted,nuclear
+Breast Screening,not_wanted,not_wanted
+CT Radiotherapy planning scan thorax,not_wanted,not_wanted
+Hysterosalpingogram,not_wanted,not_wanted
+Mobile image intensifier lumbar spine,not_wanted,not_wanted
+MRCP,not_wanted,not_wanted
+MRI Internal auditory meatus Both,not_wanted,not_wanted
+MRI Multiparametric prostate,not_wanted,not_wanted
+Unspecified CR CHEST,not_wanted,not_wanted
+Unspecified XA CHEST,not_wanted,not_wanted
+US Breast Both,not_wanted,not_wanted
+US Breast Lt,not_wanted,not_wanted
+US Foot Rt,not_wanted,not_wanted
+US Guided injection hip Lt,not_wanted,not_wanted
+US Liver,not_wanted,not_wanted
+US Pelvis TA and transvaginal,not_wanted,not_wanted
+US Pelvis transvaginal,not_wanted,not_wanted
+US Thyroid,not_wanted,not_wanted
+XR Abdomen,not_wanted,not_wanted
+XR Ankle Rt,not_wanted,not_wanted
+XR Cervical spine,not_wanted,not_wanted
+XR Chest,not_wanted,not_wanted
+XR Elbow Lt,not_wanted,not_wanted
+XR Facial bones,not_wanted,not_wanted
+XR Fingers Lt,not_wanted,not_wanted
+XR Foot Both,not_wanted,not_wanted
+XR Foot Lt,not_wanted,not_wanted
+XR Foot Rt,not_wanted,not_wanted
+XR Hand Both,not_wanted,not_wanted
+XR Hand Lt,not_wanted,not_wanted
+XR Hand Rt,not_wanted,not_wanted
+XR Knee Rt,not_wanted,not_wanted
+XR Lumbar spine,not_wanted,not_wanted
+XR Mammogram Both,not_wanted,not_wanted
+XR Orthopantomogram full,not_wanted,not_wanted
+XR Patella Rt,not_wanted,not_wanted
+XR Pelvis,not_wanted,not_wanted
+XR Toe great Rt,not_wanted,not_wanted
+XR Wrist Lt,not_wanted,not_wanted
