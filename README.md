@@ -37,3 +37,9 @@ If the program finishes prior to end of results list the program can be restarte
 | Examle_xml.txt | An anonymised version of the a rsp0001.xml for reference (not use by the program) |
 | progress.log | A progress log, shows timing which can be helpful for predicting how long the request will take |
 | progress_re.log | Log for anonymization of already downloaded files, which is work in progress |
+
+| List of variables and what there are for| |
+| --- | --- |
+| processing_folder_loc | where the inputs,logs and search results should go (search results are not the dicoms, just the details of them (the ids))|
+| Storagefolder | where the downloaded dicoms should got, either non-Anonymised or Anonymised depending on how the program is running |
+
