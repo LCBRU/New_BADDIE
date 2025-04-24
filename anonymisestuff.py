@@ -2,6 +2,7 @@ import csv
 import subprocess
 import threading
 import bs4
+from pydicom import *
 from bs4 import BeautifulSoup as bs
 import lxml
 import pandas as pd
@@ -16,6 +17,8 @@ from itertools import islice
 from pathlib import Path
 import timeit
 import os
+#import onedrivesdk
+from alive_progress import alive_bar
 import time as mytime
 from datetime import datetime, time
 from dicomanonymizer import *
@@ -23,8 +26,6 @@ from dicomanonymizer import *
 import sys
 
 
-folder_loc_in = 'C:\\Baddie\\AIMI\\'
-folder_loc_out = 'V:\\1. IT projects\\AIMI\\'
 #folder = f'aimi0012370'
 
 
@@ -34,45 +35,90 @@ folder_loc_out = 'V:\\1. IT projects\\AIMI\\'
 #subprocess.run ( mkcmd, shell=True, text=True, capture_output=True ).stderr
 #print(os.listdir ( folder_loc ))
 
+# Define the start date
+start_date = datetime(2025, 1, 1)
+# Get the current date and time
+current_date = datetime.now()
+# Calculate the difference in hours
+hours_since_start = int((current_date - start_date).total_seconds() / 3600)
+print(f"The number of hours since January 1st, 2025 is {hours_since_start:.2f} hours, we'll use this to start the Patient_id to ensure no overlap of IDs")
 
-def execute_anonymisation(folder_loc_in,folder_loc_out):
-    print({folder_loc_in})
-    print({folder_loc_out})
+
+def execute_anonymisation(folder_loc_in,folder_loc_out,dictionary_loc):
+    print(folder_loc_in)
+    print(folder_loc_out)
+    print(dictionary_loc)
     tic_a = timeit.default_timer()
-    folder_loc_folder = f'{folder_loc}{folder}\\'
-    to_process = len ( [name for name in os.listdir ( folder_loc_folder ) if
-                        os.path.isfile ( os.path.join ( folder_loc_folder, name ) )] )
+    #folder_loc_folder = f'{folder_loc_in}{folder}\\'
+    Folder_list = []
+    Folder_list = [name for name in os.listdir(folder_loc_in)]
+    #Folder_list = ['ScadReg03221', 'ScadReg03147']
+    to_process = len(Folder_list)
+    print(Folder_list)
+    print(to_process)
     filenames = []
-    f = 0
+    with alive_bar(len(Folder_list)) as bar:
+        fol_number_for_patient_id = hours_since_start
+        for fol in Folder_list:
+            fol_number_for_patient_id += 1
+            #print(fol)
+            mkcmd = f'mkdir {folder_loc_out}{fol}'
+            #print(mkcmd)
+            subprocess.run(mkcmd, shell=True, text=True, capture_output=True).stderr
+            filenames = []
+            for entry in os.listdir(f'{folder_loc_in}{fol}'):
+                filenames.append(entry)
+                # print(entry)
+            completed = 0
+            failed = 0
+            n = len(filenames)
+            now = datetime.now()
+            dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+            print(f'Starting with Folder {fol} : {n} files. Time started : {dt_string}')
+            for filename in filenames:
+                tic_a = timeit.default_timer ()
+                # print(filename)
+                in_file = f"{folder_loc_in}{fol}\\{filename}"
+                file_out = f"{folder_loc_out}{fol}\\{filename}"
+                # regexp' 'R.+' '{folder} replaced with a simple empty
+                ds = dcmread(in_file)
+                # Edit the (0010,0020) 'Patient ID' element
+                #ds.PatientID = f'{fol}'
+                #ds.PatientName = f'{fol}'
 
-    # Create Psudonimised File and open for writing
-    mkcmd = f'mkdir {folder_loc}{folder}\\de'
-    subprocess.run ( mkcmd, shell=True, text=True, capture_output=True ).stderr
-    filenames = []
+                ds.PatientID = f'{fol_number_for_patient_id}'
+                ds.PatientName = f'{fol_number_for_patient_id}'
+                #ds.OtherPatientIDs= f'########'
+                #ds.PatientAddress= f'########'
+                #ds.PatientBirthDate = f'19010101'
+                #ds.RequestingPhysician = f'########'
+                ds.save_as(in_file)
 
-    for entry in os.listdir ( f'{folder_loc}{folder}' ):
-        filenames.append ( entry )
-        # print(entry)
-    for filename in filenames:
-        #print(filename)
-        in_file = f'{folder_loc}{folder}\\{filename}'
-        file_out = f'{folder_loc}{folder}\\de\\{filename}'
-        #regexp' 'R.+' '{folder} replaced with a simple empty
-        di_cmd = f"dicom-anonymizer -t '(\"0x0010, 0x0020\")' 'regexp' 'R.+' '{folder}' --dictionary {folder_loc}dictionary.json {in_file} {file_out}"  # --extra-rules extra_rules.json
-        # print(di_cmd)
-        #ExecuteAnonymisation = \
-        try:
-            process_output = subprocess.run([di_cmd], shell=True, text=True, capture_output=True).stdout
-            print(di_cmd)
-            print(process_output)
-        except subprocess.CalledProcessError as e:
-            print(f"Error executing command: {e}")
 
-    processed = len([name for name in os.listdir ( f'{folder_loc}{folder}\\de\\') if
-                       os.path.isfile(os.path.join(f'{folder_loc}{folder}\\de\\', name))])
+                #di_cmd = f'dicom-anonymizer --dictionary {folder_loc_Processing}dictionary.json {in_file} {file_out}"  # --extra-rules extra_rules.json
+                di_cmd = f'dicom-anonymizer --dictionary {dictionary_loc}dictionary.json "{in_file}" "{file_out}" '  # --extra-rules extra_rules.json
+                print(di_cmd)
+                # ExecuteAnonymisation = \
+                try:
+                    print(f' working on Folder {fol}...')
+                    subprocess.run(di_cmd,shell=True ,text=True ,capture_output=True, check=True).stderr
+                    #print(di_cmd)
+                    completed += 1
+
+                except subprocess.CalledProcessError as e:
+                    failed += 1
+                    print(f"Error executing command: {e}")
+            bar()
+            print(f'Finished with Folder {fol} : {n} files')
+
+    processed = f'completed:{completed} / failed: {failed}'
     toc_a = timeit.default_timer ()
-    log = f'{folder} had {to_process} to Anonymise, {processed} Anonymised in {round ( (toc_a - tic_a) / 60, 1 )} Minutes.'
+    log = f'{processed} in {round ( (toc_a - tic_a) / 60, 1 )} Minutes.'
     print(log)
+    print('started:')
+    print(tic_a)
+    print('stopped:')
+    print(toc_a)
     #logging.info ( log )
 
 def execute_re_anonymisation_acc_num(folder):
@@ -136,6 +182,18 @@ def anonymisation_only(folder_loc,fulllist,completed_list):
         i = i+1
 
 
-execute_anonymisation('aimi0019515')
+#folder_loc_Processing = f'C:\\Baddie\\AIMI\\'
+#folder_loc_in = f'C:\\AIMI\\'
+#folder_loc_out = f'V:\\Baddie\\AIMI\\'
+#folder_loc_in = f"N:\\CT test scans\\"
+
+#new locs
+folder_loc_in = f"N:\\Baddie_2B_anonymised\\AIMI\\"
+folder_loc_out = f"N:\\Baddie\\AIMI\\"
+dictionary_loc = f'C:\\Baddie\\AIMI\\'
+
+execute_anonymisation(folder_loc_in,folder_loc_out,dictionary_loc)
+
+
 #anonymisation_only(f'{folder_loc}{folder}')
 #clear_pid_version(folder)
