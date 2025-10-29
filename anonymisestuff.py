@@ -43,6 +43,9 @@ current_date = datetime.now()
 hours_since_start = int((current_date - start_date).total_seconds() / 3600)
 print(f"The number of hours since January 1st, 2025 is {hours_since_start:.2f} hours, we'll use this to start the Patient_id to ensure no overlap of IDs")
 
+folder_loc_in = f"V:\\Baddie_2B_anonymised\\AIMI\\"
+folder_loc_out = f"V:\\Baddie\\AIMI\\"
+dictionary_loc = f'C:\\Baddie\\AIMI\\'
 
 def execute_anonymisation(folder_loc_in,folder_loc_out,dictionary_loc):
     print(folder_loc_in)
@@ -52,7 +55,7 @@ def execute_anonymisation(folder_loc_in,folder_loc_out,dictionary_loc):
     #folder_loc_folder = f'{folder_loc_in}{folder}\\'
     Folder_list = []
     Folder_list = [name for name in os.listdir(folder_loc_in)]
-    #Folder_list = ['ScadReg03221', 'ScadReg03147']
+    #Folder_list = ['aimi123']
     to_process = len(Folder_list)
     print(Folder_list)
     print(to_process)
@@ -63,7 +66,9 @@ def execute_anonymisation(folder_loc_in,folder_loc_out,dictionary_loc):
             fol_number_for_patient_id += 1
             #print(fol)
             mkcmd = f'mkdir {folder_loc_out}{fol}'
-            #print(mkcmd)
+            rmdircmd = f'rmdir /s /q {folder_loc_in}{fol}'
+            print(mkcmd)
+            print(f'Once anonymisation is complete will run: {rmdircmd}')
             subprocess.run(mkcmd, shell=True, text=True, capture_output=True).stderr
             filenames = []
             for entry in os.listdir(f'{folder_loc_in}{fol}'):
@@ -97,10 +102,10 @@ def execute_anonymisation(folder_loc_in,folder_loc_out,dictionary_loc):
 
                 #di_cmd = f'dicom-anonymizer --dictionary {folder_loc_Processing}dictionary.json {in_file} {file_out}"  # --extra-rules extra_rules.json
                 di_cmd = f'dicom-anonymizer --dictionary {dictionary_loc}dictionary.json "{in_file}" "{file_out}" '  # --extra-rules extra_rules.json
-                print(di_cmd)
+                #print(di_cmd)
                 # ExecuteAnonymisation = \
                 try:
-                    print(f' working on Folder {fol}...')
+                    # print(f' working on Folder {fol}...')
                     subprocess.run(di_cmd,shell=True ,text=True ,capture_output=True, check=True).stderr
                     #print(di_cmd)
                     completed += 1
@@ -108,6 +113,8 @@ def execute_anonymisation(folder_loc_in,folder_loc_out,dictionary_loc):
                 except subprocess.CalledProcessError as e:
                     failed += 1
                     print(f"Error executing command: {e}")
+            print(rmdircmd)
+            subprocess.run(rmdircmd, shell=True, text=True, capture_output=True).stderr
             bar()
             print(f'Finished with Folder {fol} : {n} files')
 
@@ -182,17 +189,16 @@ def anonymisation_only(folder_loc,fulllist,completed_list):
         i = i+1
 
 
-#folder_loc_Processing = f'C:\\Baddie\\AIMI\\'
-#folder_loc_in = f'C:\\AIMI\\'
-#folder_loc_out = f'V:\\Baddie\\AIMI\\'
-#folder_loc_in = f"N:\\CT test scans\\"
+
 
 #new locs
-folder_loc_in = f"N:\\Baddie_2B_anonymised\\AIMI\\"
-folder_loc_out = f"N:\\Baddie\\AIMI\\"
+folder_loc_in = f"V:\\Baddie_2B_anonymised\\AIMI\\"
+folder_loc_out = f"V:\\Baddie\\AIMI\\"
 dictionary_loc = f'C:\\Baddie\\AIMI\\'
+folder_loc_Processing = f'C:\\Baddie\\AIMI\\'
 
-execute_anonymisation(folder_loc_in,folder_loc_out,dictionary_loc)
+print('DO NOT USE! Use the new version instead, this is TBD neww version is baddie_anon.py')
+#execute_anonymisation(folder_loc_in,folder_loc_out,dictionary_loc)
 
 
 #anonymisation_only(f'{folder_loc}{folder}')
