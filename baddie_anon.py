@@ -71,7 +71,7 @@ def execute_anonymisation(folder_loc_in, folder_loc_out, dictionary_loc, hours_s
     print(f"Completed: {total_completed}, Failed: {total_failed}")
     print(f"Time taken: {round((toc - tic) / 60, 2)} minutes")
 
-# ✅ Entry point for multiprocessing
+# Entry point for multiprocessing
 if __name__ == "__main__":
     folder_loc_in = f'V:\\Baddie_2B_anonymised\\{research_study_name}\\'
     folder_loc_out = f'V:\\Baddie\\{research_study_name}\\'
