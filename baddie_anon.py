@@ -1,4 +1,4 @@
-miimport os
+import os
 import shutil
 import subprocess
 import timeit
