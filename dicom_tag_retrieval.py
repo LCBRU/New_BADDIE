@@ -1,6 +1,5 @@
 from concurrent.futures import ProcessPoolExecutor
 
-import pydicom
 from pydicom import dcmread
 
 import os
@@ -9,7 +8,6 @@ import multiprocessing
 from tqdm import tqdm
 import pandas as pd
 import time
-from concurrent.futures import ProcessPoolExecutor
 
 
 #print(f"Using {os.cpu_count()} workers")

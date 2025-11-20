@@ -7,11 +7,6 @@ from concurrent.futures import ProcessPoolExecutor
 from pydicom import dcmread
 from alive_progress import alive_bar
 
-#research_study_name = 'ECHO'
-research_study_name = 'AIMI'
-#research_study_name = 'GENVASC'
-#research_study_name = 'AIStudy'
-
 
 def anonymize_file(in_file, file_out, dictionary_loc, patient_id):
     try:
@@ -26,6 +21,7 @@ def anonymize_file(in_file, file_out, dictionary_loc, patient_id):
     except Exception as e:
         print(f"Error processing {in_file}: {e}")
         return False
+
 
 def process_folder(folder_in, folder_out, dictionary_loc, folder_name, patient_id):
     in_path = os.path.join(folder_in, folder_name)
@@ -47,6 +43,7 @@ def process_folder(folder_in, folder_out, dictionary_loc, folder_name, patient_i
     shutil.rmtree(in_path, ignore_errors=True)
     return completed, failed
 
+
 def execute_anonymisation(folder_loc_in, folder_loc_out, dictionary_loc, hours_since_start=0):
     print(f"Input: {folder_loc_in}")
     print(f"Output: {folder_loc_out}")
@@ -61,7 +58,7 @@ def execute_anonymisation(folder_loc_in, folder_loc_out, dictionary_loc, hours_s
     with alive_bar(len(folders)) as bar:
         for i, folder in enumerate(folders):
             patient_id = hours_since_start + i + 1
-            #patient_id = folder
+            # patient_id = folder
             completed, failed = process_folder(folder_loc_in, folder_loc_out, dictionary_loc, folder, patient_id)
             total_completed += completed
             total_failed += failed
@@ -71,12 +68,16 @@ def execute_anonymisation(folder_loc_in, folder_loc_out, dictionary_loc, hours_s
     print(f"Completed: {total_completed}, Failed: {total_failed}")
     print(f"Time taken: {round((toc - tic) / 60, 2)} minutes")
 
+
 # Entry point for multiprocessing
 if __name__ == "__main__":
+    
+    # set research_study_name which will also be the foler name
+    # currently we have ECHO,AIMI,GENVASC, and SCAD
+    research_study_name = 'SCAD'
     folder_loc_in = f'V:\\Baddie_2B_anonymised\\{research_study_name}\\'
     folder_loc_out = f'V:\\Baddie\\{research_study_name}\\'
     dictionary_loc = f'C:\\Baddie\\{research_study_name}\\'
-
     start_date = datetime(2025, 1, 1)
     current_date = datetime.now()
     hours_since_start = int((current_date - start_date).total_seconds() / 3600)
