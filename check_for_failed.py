@@ -1,7 +1,8 @@
 from pathlib import Path
 import shutil
 import logging
-from concurrent.futures import ProcessPoolExecutor, as_completed
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from tqdm import tqdm
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 
@@ -45,12 +46,12 @@ def move_folder_if_failed_parallel(
     subfolders = [f for f in src.iterdir() if f.is_dir()]
     logging.info(f"Found {len(subfolders)} subfolders to process.")
 
-    with ProcessPoolExecutor(max_workers=max_workers) as executor:
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
         futures = [
             executor.submit(check_and_move, subfolder, dest, min_files, dry_run)
             for subfolder in subfolders
         ]
-        for future in as_completed(futures):
+        for future in tqdm(as_completed(futures), total=len(futures), desc="Processing folders"):
             logging.info(future.result())
 
 if __name__ == "__main__":
@@ -59,5 +60,5 @@ if __name__ == "__main__":
         r"V:\Baddie_2B_anonymised\failed",
         min_files=2,
         dry_run=False,
-        max_workers=None  # Use all available cores
+        max_workers=16  # Adjust based on your system (e.g., number of logical cores)
     )
