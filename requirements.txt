@@ -4,3 +4,4 @@ pandas
 psutil
 dicom-anonymizer
 alive_progress
+python-dotenv

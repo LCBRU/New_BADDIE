@@ -2,13 +2,19 @@ import os
 import shutil
 import subprocess
 import timeit
+from dotenv import load_dotenv
 from datetime import datetime
 from concurrent.futures import ProcessPoolExecutor
 from pydicom import dcmread
 from alive_progress import alive_bar
 
+load_dotenv()
 
 def anonymize_file(in_file, file_out, dictionary_loc, patient_id):
+    
+    if os.path.isfile(f'{os.getenv("working_loc")}\\stop'):
+        raise Exception("STOP FILE DETECTED - within anonymize_file")
+    
     try:
         ds = dcmread(in_file)
         ds.PatientID = str(patient_id)
@@ -33,13 +39,20 @@ def process_folder(folder_in, folder_out, dictionary_loc, folder_name, patient_i
     out_files = [os.path.join(out_path, f) for f in filenames]
     howmany = len(filenames)
     print(f'working on: {folder_name} (in folder {folder_in}), {howmany} files to process')
+    
+    if os.path.isfile(f'{os.getenv("working_loc")}\\stop'):
+        raise Exception("TEST STOP FILE DETECTED - HALTING PROCESSING")
 
     with ProcessPoolExecutor() as executor:
-        results = executor.map(anonymize_file, in_files, out_files, [dictionary_loc]*len(filenames), [patient_id]*len(filenames))
+        results = executor.map(anonymize_file, in_files, out_files, 
+                               [dictionary_loc]*len(filenames), [patient_id]*len(filenames))
 
     completed = sum(1 for r in results if r)
     failed = len(filenames) - completed
 
+    if os.path.isfile(f'{os.getenv("working_loc")}\\stop'):
+        raise Exception("File failed to anonymise")
+    
     shutil.rmtree(in_path, ignore_errors=True)
     return completed, failed
 
@@ -69,15 +82,24 @@ def execute_anonymisation(folder_loc_in, folder_loc_out, dictionary_loc, hours_s
     print(f"Time taken: {round((toc - tic) / 60, 2)} minutes")
 
 
+
 # Entry point for multiprocessing
 if __name__ == "__main__":
     
     # set research_study_name which will also be the foler name
     # currently we have ECHO,AIMI,GENVASC, and SCAD
     research_study_name = 'SCAD'
-    folder_loc_in = f'V:\\Baddie_2B_anonymised\\{research_study_name}\\'
-    folder_loc_out = f'V:\\Baddie\\{research_study_name}\\'
-    dictionary_loc = f'C:\\Baddie\\{research_study_name}\\'
+
+
+    folder_loc_in = f'{os.getenv('folder_loc_in')}\\{research_study_name}\\'
+    folder_loc_out = f'{os.getenv('folder_loc_out')}\\{research_study_name}\\'
+    dictionary_loc = f'{os.getenv('working_loc')}\\{research_study_name}\\'
+    #create dictonary folder and file for anonymisation if not exists based on defalt_dic folder
+    if not os.path.exists(dictionary_loc):
+        os.makedirs(dictionary_loc, exist_ok=True)
+        default_dic_path = f'{os.getenv('working_loc')}\\default_dic'
+        shutil.copytree(default_dic_path, dictionary_loc, dirs_exist_ok=True)
+
     start_date = datetime(2025, 1, 1)
     current_date = datetime.now()
     hours_since_start = int((current_date - start_date).total_seconds() / 3600)

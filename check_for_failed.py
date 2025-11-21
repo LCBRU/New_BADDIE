@@ -1,34 +1,56 @@
-import os
+from pathlib import Path
 import shutil
+import logging
 
-def MoveFolderIfFailed(folder, outputfolder):
-    # Check if the folder exists
-    if not os.path.exists(folder):
-        print(f"Error: The folder '{folder}' does not exist.")
+# Configure logging
+logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
+
+def move_folder_if_failed(
+    source_folder: str,
+    destination_folder: str,
+    min_files: int = 2,
+    dry_run: bool = False
+) -> None:
+    """
+    Move subfolders from source_folder to destination_folder if they contain fewer than min_files.
+
+    Args:
+        source_folder (str): Path to the source directory.
+        destination_folder (str): Path to the destination directory.
+        min_files (int): Minimum number of files required to keep the folder.
+        dry_run (bool): If True, only log actions without moving folders.
+    """
+    src = Path(source_folder)
+    dest = Path(destination_folder)
+
+    # Validate paths
+    if not src.exists():
+        logging.error(f"Source folder '{src}' does not exist.")
+        return
+    if not dest.exists():
+        logging.error(f"Destination folder '{dest}' does not exist.")
         return
 
-    # Check if the output folder exists
-    if not os.path.exists(outputfolder):
-        print(f"Error: The output folder '{outputfolder}' does not exist.")
-        return
+    # Iterate through subfolders
+    for subfolder in src.iterdir():
+        if subfolder.is_dir():
+            num_files = sum(1 for f in subfolder.iterdir() if f.is_file())
+            logging.info(f"'{subfolder}' has {num_files} files.")
 
-    # Iterate through each subfolder in the folder
-    for subfolder in os.listdir(folder):
-        subfolder_path = os.path.join(folder, subfolder)
+            if num_files < min_files:
+                if dry_run:
+                    logging.info(f"[DRY RUN] Would move '{subfolder}' to '{dest}'.")
+                else:
+                    try:
+                        shutil.move(str(subfolder), str(dest / subfolder.name))
+                        logging.info(f"Moved '{subfolder}' to '{dest}'.")
+                    except Exception as e:
+                        logging.error(f"Failed to move '{subfolder}': {e}")
 
-        # Check if it is a directory
-        if os.path.isdir(subfolder_path):
-            # Count the number of files in the subfolder
-            num_files = len([
-                f for f in os.listdir(subfolder_path)
-                if os.path.isfile(os.path.join(subfolder_path, f))
-            ])
-            print(f'{subfolder_path} has {num_files} files')
+# Example usage
+move_folder_if_failed(
+    r"V:\Baddie_2B_anonymised\SCAD",
+    r"V:\Baddie_2B_anonymised\failed",
+    min_files=2,
+    dry_run=False)
 
-            # If the subfolder contains fewer than 2 files, move it
-            if num_files < 2:
-                shutil.move(subfolder_path, os.path.join(outputfolder, subfolder))
-                print(f"Moved '{subfolder_path}' to '{outputfolder}'")
-
-
-MoveFolderIfFailed(r'V:\Baddie_2B_anonymised\AIMI',r'V:\Baddie_2B_anonymised\failed')
