@@ -1,29 +1,40 @@
 from pathlib import Path
 import shutil
 import logging
+from concurrent.futures import ProcessPoolExecutor, as_completed
 
-# Configure logging
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 
-def move_folder_if_failed(
+def check_and_move(subfolder: Path, dest: Path, min_files: int, dry_run: bool) -> str:
+    """Check if subfolder has fewer than min_files and move if needed."""
+    file_count = 0
+    try:
+        for f in subfolder.iterdir():
+            if f.is_file():
+                file_count += 1
+                if file_count >= min_files:
+                    break
+        if file_count < min_files:
+            if dry_run:
+                return f"[DRY RUN] Would move '{subfolder}' to '{dest}'."
+            else:
+                shutil.move(str(subfolder), str(dest / subfolder.name))
+                return f"Moved '{subfolder}' to '{dest}'."
+        else:
+            return f"'{subfolder}' has {file_count} files (OK)."
+    except Exception as e:
+        return f"Error processing '{subfolder}': {e}"
+
+def move_folder_if_failed_parallel(
     source_folder: str,
     destination_folder: str,
     min_files: int = 2,
-    dry_run: bool = False
+    dry_run: bool = False,
+    max_workers: int = None
 ) -> None:
-    """
-    Move subfolders from source_folder to destination_folder if they contain fewer than min_files.
-
-    Args:
-        source_folder (str): Path to the source directory.
-        destination_folder (str): Path to the destination directory.
-        min_files (int): Minimum number of files required to keep the folder.
-        dry_run (bool): If True, only log actions without moving folders.
-    """
     src = Path(source_folder)
     dest = Path(destination_folder)
 
-    # Validate paths
     if not src.exists():
         logging.error(f"Source folder '{src}' does not exist.")
         return
@@ -31,26 +42,22 @@ def move_folder_if_failed(
         logging.error(f"Destination folder '{dest}' does not exist.")
         return
 
-    # Iterate through subfolders
-    for subfolder in src.iterdir():
-        if subfolder.is_dir():
-            num_files = sum(1 for f in subfolder.iterdir() if f.is_file())
-            logging.info(f"'{subfolder}' has {num_files} files.")
+    subfolders = [f for f in src.iterdir() if f.is_dir()]
+    logging.info(f"Found {len(subfolders)} subfolders to process.")
 
-            if num_files < min_files:
-                if dry_run:
-                    logging.info(f"[DRY RUN] Would move '{subfolder}' to '{dest}'.")
-                else:
-                    try:
-                        shutil.move(str(subfolder), str(dest / subfolder.name))
-                        logging.info(f"Moved '{subfolder}' to '{dest}'.")
-                    except Exception as e:
-                        logging.error(f"Failed to move '{subfolder}': {e}")
+    with ProcessPoolExecutor(max_workers=max_workers) as executor:
+        futures = [
+            executor.submit(check_and_move, subfolder, dest, min_files, dry_run)
+            for subfolder in subfolders
+        ]
+        for future in as_completed(futures):
+            logging.info(future.result())
 
-# Example usage
-move_folder_if_failed(
-    r"V:\Baddie_2B_anonymised\SCAD",
-    r"V:\Baddie_2B_anonymised\failed",
-    min_files=2,
-    dry_run=False)
-
+if __name__ == "__main__":
+    move_folder_if_failed_parallel(
+        r"V:\Baddie_2B_anonymised\SCAD",
+        r"V:\Baddie_2B_anonymised\failed",
+        min_files=2,
+        dry_run=False,
+        max_workers=None  # Use all available cores
+    )
