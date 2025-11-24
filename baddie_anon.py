@@ -70,8 +70,10 @@ def execute_anonymisation(folder_loc_in, folder_loc_out, dictionary_loc, hours_s
 
     with alive_bar(len(folders)) as bar:
         for i, folder in enumerate(folders):
-            patient_id = hours_since_start + i + 1
-            # patient_id = folder
+            if research_study_name == f'AIMI' :
+                patient_id = str(hours_since_start + i + 1)
+            else:
+                patient_id = folder
             completed, failed = process_folder(folder_loc_in, folder_loc_out, dictionary_loc, folder, patient_id)
             total_completed += completed
             total_failed += failed
