@@ -40,20 +40,18 @@ def process_folder(folder_in, folder_out, dictionary_loc, folder_name, patient_i
     howmany = len(filenames)
     print(f'working on: {folder_name} (in folder {folder_in}), {howmany} files to process')
     
-    if os.path.isfile(f'{os.getenv("working_loc")}\\stop'):
-        raise Exception("TEST STOP FILE DETECTED - HALTING PROCESSING")
-
     with ProcessPoolExecutor() as executor:
         results = executor.map(anonymize_file, in_files, out_files, 
                                [dictionary_loc]*len(filenames), [patient_id]*len(filenames))
 
     completed = sum(1 for r in results if r)
     failed = len(filenames) - completed
-
-    if os.path.isfile(f'{os.getenv("working_loc")}\\stop'):
-        raise Exception("File failed to anonymise")
-    
+   
     shutil.rmtree(in_path, ignore_errors=True)
+    
+    if os.path.isfile(f'{os.getenv("working_loc")}\\stop_after_folder'):
+        raise Exception("stop_after_folder FILE DETECTED - HALTING PROCESSING")
+    
     return completed, failed
 
 
@@ -70,7 +68,7 @@ def execute_anonymisation(folder_loc_in, folder_loc_out, dictionary_loc, hours_s
 
     with alive_bar(len(folders)) as bar:
         for i, folder in enumerate(folders):
-            if research_study_name == f'AIMI' :
+            if research_study_name == 'AIMI' :
                 patient_id = str(hours_since_start + i + 1)
             else:
                 patient_id = folder

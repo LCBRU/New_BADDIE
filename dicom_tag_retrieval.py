@@ -96,7 +96,7 @@ def dicom_tag_retriaval_parallel(folder_loc_in, conn_str, SQL_tag_table, studyID
 
 
 
-research_study_name = 'AIMI'
+research_study_name = 'SCAD'
 
 if __name__ == "__main__":
     multiprocessing.freeze_support ()
@@ -109,7 +109,7 @@ if __name__ == "__main__":
     conn_str = (
         "Driver={ODBC Driver 17 for SQL Server};"
         "Server=UHLSQLBRICCS01\\BRICCS01;"
-        f"Database=i2b2_app03_{research_study_name};"
+        f"Database=i2b2_app03_{research_study_name}_Data;"
         "Trusted_Connection=yes;"
     )
 
