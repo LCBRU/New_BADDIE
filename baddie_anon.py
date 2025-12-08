@@ -2,11 +2,13 @@ import os
 import shutil
 import subprocess
 import timeit
+from pathlib import Path
 from dotenv import load_dotenv
 from datetime import datetime
 from concurrent.futures import ProcessPoolExecutor
 from pydicom import dcmread
 from alive_progress import alive_bar
+
 
 load_dotenv()
 
@@ -21,7 +23,7 @@ def anonymize_file(in_file, file_out, dictionary_loc, patient_id):
         ds.PatientName = str(patient_id)
         ds.save_as(in_file)
 
-        di_cmd = f'dicom-anonymizer --dictionary "{dictionary_loc}dictionary.json" "{in_file}" "{file_out}"'
+        di_cmd = f'dicom-anonymizer --dictionary "{Path(dictionary_loc) / "dictionary.json"}" "{in_file}" "{file_out}"'
         subprocess.run(di_cmd, shell=True, text=True, capture_output=True, check=True)
         return True
     except Exception as e:
@@ -88,16 +90,15 @@ if __name__ == "__main__":
     
     # set research_study_name which will also be the foler name
     # currently we have ECHO,AIMI,GENVASC, and SCAD
-    research_study_name = 'SCAD'
+    research_study_name = 'Test'
 
-
-    folder_loc_in = f'{os.getenv('folder_loc_in')}\\{research_study_name}\\'
-    folder_loc_out = f'{os.getenv('folder_loc_out')}\\{research_study_name}\\'
-    dictionary_loc = f'{os.getenv('working_loc')}\\{research_study_name}\\'
+    folder_loc_in = Path(os.getenv("folder_loc_in")) / research_study_name
+    folder_loc_out = Path(os.getenv("folder_loc_out")) / research_study_name
+    dictionary_loc = Path(os.getenv("working_loc")) / research_study_name
     #create dictonary folder and file for anonymisation if not exists based on defalt_dic folder
     if not os.path.exists(dictionary_loc):
         os.makedirs(dictionary_loc, exist_ok=True)
-        default_dic_path = f'{os.getenv('working_loc')}\\default_dic'
+        default_dic_path = Path(os.getenv("working_loc")) /'default_dic'
         shutil.copytree(default_dic_path, dictionary_loc, dirs_exist_ok=True)
 
     start_date = datetime(2025, 1, 1)
