@@ -14,9 +14,8 @@ load_dotenv()
 
 def anonymize_file(in_file, file_out, dictionary_loc, patient_id):
     
-    if os.path.isfile(f'{os.getenv("working_loc")}\\stop'):
-        raise Exception("STOP FILE DETECTED - within anonymize_file")
-    
+    if (Path(os.getenv("working_loc")) / "stop").is_file():
+        raise Exception("STOP FILE DETECTED - within anonymize_file")    
     try:
         ds = dcmread(in_file)
         ds.PatientID = str(patient_id)
@@ -51,7 +50,7 @@ def process_folder(folder_in, folder_out, dictionary_loc, folder_name, patient_i
    
     shutil.rmtree(in_path, ignore_errors=True)
     
-    if os.path.isfile(f'{os.getenv("working_loc")}\\stop_after_folder'):
+    if (Path(os.getenv("working_loc")) / "stop_after_folder").is_file():
         raise Exception("stop_after_folder FILE DETECTED - HALTING PROCESSING")
     
     return completed, failed
