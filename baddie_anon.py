@@ -22,8 +22,15 @@ def anonymize_file(in_file, file_out, dictionary_loc, patient_id):
         ds.PatientName = str(patient_id)
         ds.save_as(in_file)
 
-        di_cmd = f'dicom-anonymizer --dictionary "{Path(dictionary_loc) / "dictionary.json"}" "{in_file}" "{file_out}"'
-        subprocess.run(di_cmd, shell=True, text=True, capture_output=True, check=True)
+        di_cmd = [
+            "dicom-anonymizer",
+            "--dictionary",
+            str(Path(dictionary_loc) / "dictionary.json"),
+            str(in_file),
+            str(file_out),
+        ]
+        subprocess.run(di_cmd, text=True, capture_output=True, check=True)
+
         return True
     except Exception as e:
         print(f"Error processing {in_file}: {e}")
