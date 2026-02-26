@@ -12,6 +12,14 @@ from alive_progress import alive_bar
 
 load_dotenv()
 
+def get_path(env_key):
+    raw = os.getenv(env_key)
+    if not raw:
+        raise RuntimeError(f"Missing env var: {env_key}")
+    # Use Path to normalise separators and expand ~; do not force resolve if network drives may be offline
+    return Path(raw).expanduser()
+
+
 def anonymize_file(in_file, file_out, dictionary_loc, patient_id):
     
     if (Path(os.getenv("working_loc")) / "stop").is_file():
@@ -25,10 +33,11 @@ def anonymize_file(in_file, file_out, dictionary_loc, patient_id):
         di_cmd = [
             "dicom-anonymizer",
             "--dictionary",
-            str(Path(dictionary_loc) / "dictionary.json"),
-            str(in_file),
-            str(file_out),
+            (dictionary_loc / "dictionary.json").as_posix(),
+            Path(in_file).as_posix(),
+            Path(file_out).as_posix(),
         ]
+
         subprocess.run(di_cmd, text=True, capture_output=True, check=True)
 
         return True
@@ -54,7 +63,7 @@ def process_folder(folder_in, folder_out, dictionary_loc, folder_name, patient_i
 
     completed = sum(1 for r in results if r)
     failed = len(filenames) - completed
-   
+    print(f'Processed {completed} files, {failed} failed . Now removing : {in_path}')
     shutil.rmtree(in_path, ignore_errors=True)
     
     if (Path(os.getenv("working_loc")) / "stop_after_folder").is_file():
@@ -67,6 +76,10 @@ def execute_anonymisation(folder_loc_in, folder_loc_out, dictionary_loc, hours_s
     print(f"Input: {folder_loc_in}")
     print(f"Output: {folder_loc_out}")
     print(f"Dictionary: {dictionary_loc}")
+
+    dic_path = dictionary_loc / "dictionary.json"
+    if not dic_path.is_file():
+        raise FileNotFoundError(f"dictionary.json not found at {dic_path}")
 
     tic = timeit.default_timer()
     folders = [f for f in os.listdir(folder_loc_in) if os.path.isdir(os.path.join(folder_loc_in, f))]
@@ -96,14 +109,21 @@ if __name__ == "__main__":
     
     # set research_study_name which will also be the foler name
     # currently we have ECHO,AIMI,GENVASC, and SCAD
-    research_study_name = 'Test'
+    research_study_name = 'AIMI' # Change as needed
 
-    folder_loc_in = Path(os.getenv("folder_loc_in")) / research_study_name
-    folder_loc_out = Path(os.getenv("folder_loc_out")) / research_study_name
-    dictionary_loc = Path(os.getenv("working_loc")) / research_study_name
+    folder_loc_in = get_path("folder_loc_in") / research_study_name
+    folder_loc_out = get_path("folder_loc_out") / research_study_name
+    dictionary_loc = get_path("working_loc") / research_study_name
+
+    print("Resolved paths:")
+    print("  folder_loc_in:", folder_loc_in)
+    print("  folder_loc_out:", folder_loc_out)
+    print("  dictionary_loc:", dictionary_loc)
+    print("  dictionary.json exists:", (dictionary_loc / "dictionary.json").exists())
+
     #create dictonary folder and file for anonymisation if not exists based on defalt_dic folder
-    if not os.path.exists(dictionary_loc):
-        os.makedirs(dictionary_loc, exist_ok=True)
+    if not dictionary_loc.exists():
+        dictionary_loc.mkdir(parents=True, exist_ok=True)
         default_dic_path = Path(os.getenv("working_loc")) /'default_dic'
         shutil.copytree(default_dic_path, dictionary_loc, dirs_exist_ok=True)
 

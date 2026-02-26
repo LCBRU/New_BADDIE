@@ -3,7 +3,7 @@ import shutil
 import pyodbc
 
 # Define the study name and SQL connection string
-research_study_name = 'AIMI'
+research_study_name = 'SCAD'
 conn_str = (
     "Driver={ODBC Driver 17 for SQL Server};"
     "Server=UHLSQLBRICCS01\\BRICCS01;"

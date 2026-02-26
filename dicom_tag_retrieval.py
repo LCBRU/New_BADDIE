@@ -107,10 +107,11 @@ if __name__ == "__main__":
         , 'SliceLocation', 'StudyDate']
 
     conn_str = (
-        "Driver={ODBC Driver 17 for SQL Server};"
+        "Driver={ODBC Driver 18 for SQL Server};"
         "Server=UHLSQLBRICCS01\\BRICCS01;"
         f"Database=i2b2_app03_{research_study_name}_Data;"
         "Trusted_Connection=yes;"
+        "TrustServerCertificate=yes;"
     )
 
     dicom_tag_retriaval_parallel(
